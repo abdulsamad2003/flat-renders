@@ -75,8 +75,10 @@ const Flats = () => {
 
   return (
     <>
+
+    <artcile className="wrapper-container">
       <section className="wrapper">
-        <img alt="Bg image" src={renderImage} width="100%" height="auto" />
+        <img className="bg-img" alt="Bg image" src={renderImage} />
         <svg
           width="5000"
           height="3750"
@@ -264,10 +266,6 @@ const Flats = () => {
               <p>{selectedFlats.name}</p>
             </span>
             <span>
-              <h2>Area</h2>
-              <p>{selectedFlats.area}</p>
-            </span>
-            <span>
               <h2>BHK</h2>
               <p>{selectedFlats.bhk}</p>
             </span>
@@ -297,6 +295,7 @@ const Flats = () => {
           </div>
         )}
       </section>
+      </artcile>
     </>
   );
 };
