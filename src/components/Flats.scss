@@ -30,8 +30,8 @@
       z-index: 111;
       min-width: 100%;
       width: 1600px;
-      border: 1px solid red;
       height: fit-content;
+      overflow: hidden;
       @media screen and (max-width:800px) {
         width: 1200px; 
       }
