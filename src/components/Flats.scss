@@ -18,7 +18,7 @@
       z-index: 1;
       width: 1600px;
       height: fit-content;
-
+      height: 100vh;
       @media screen and (max-width:800px) {
         width: 1200px; 
       }
@@ -32,6 +32,8 @@
       width: 1600px;
       height: fit-content;
       overflow: hidden;
+      height: 100vh;
+
       @media screen and (max-width:800px) {
         width: 1200px; 
       }
