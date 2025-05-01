@@ -3,21 +3,19 @@
   width: 100%;
   height: 100vh;
   transition: all .5s ease 0s;
-  overflow: hidden;
   .wrapper{
     display: block;
     position: relative;
     width: fit-content; 
     height: 100%;
     min-width: 100%;
-    overflow: scroll;
     .bg-img{
       position: absolute;
       left: 0;
       top: 0;
       z-index: 1;
-      width: 1800px;
-      @media screen and (max-width:500px) {
+      width: 1600px;
+      @media screen and (max-width:800px) {
         width: 1200px; 
       }
     }
@@ -27,11 +25,9 @@
       top: 0;
       z-index: 111;
       min-width: 100%;
-      width: 1800px;
-      height: 1339px;
-      min-height: 100vh;
-      border: 1px solid red;
-      @media screen and (max-width:500px) {
+      width: 1600px;
+      height: fit-content;
+      @media screen and (max-width:800px) {
         width: 1200px; 
         height: 900px;
       }
