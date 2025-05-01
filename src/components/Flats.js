@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import renderImage from "../assests/render-1.jpg";
 import "./Flats.scss";
 import { supabase } from "../lib/supabaseClient";
 import FlatsDetailsPage from "./FlatsDetailsPage";
 const Flats = () => {
+  const scrollableRef = useRef(null);
+
   const [flats, setFlats] = useState([]);
   const [selectedFlats, setSelectedFlats] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
   const [fullFlatData, setFullFlatData] = useState(null);
 
-  const [flatAvaialble, setFlatAvailable] = useState('green')
   useEffect(() => {
     const fetchFlats = async () => {
       const { data, error } = await supabase.from("flats").select("*");
@@ -64,10 +65,15 @@ const Flats = () => {
     const flat = flats.find((f) => f.name === id);  
     setSelectedFlats(flat);
     console.log("Selected Flat:", flat);
+    
     const rect = e.target.getBoundingClientRect();
+    const container = scrollableRef.current;
+    const containerRect = container.getBoundingClientRect();  
+
+
     setPopupPosition({
-      x: rect.left + rect.width / 2 + window.scrollX, // Add horizontal scroll
-      y: rect.top + rect.height / 2 + window.scrollY, // Add vertical scroll
+      x: rect.left - containerRect.left + container.scrollLeft + rect.width / 2,
+      y: rect.top - containerRect.top + container.scrollTop + rect.height / 2,
     });
     
   };
@@ -77,7 +83,7 @@ const Flats = () => {
     <>
 
     <artcile className="wrapper-container">
-      <section className="wrapper">
+      <section className="wrapper" ref={scrollableRef}>
         <img className="bg-img" alt="Bg image" src={renderImage} />
         <svg
           width="5000"
