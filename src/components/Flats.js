@@ -294,11 +294,11 @@ const Flats = () => {
               Close
             </button>
 
-            {/* Full Big Popup (Separate Component) */}
-            {fullFlatData && (
-              <FlatsDetailsPage flat={fullFlatData} onClose={closeFullPopup} />
-            )}
           </div>
+        )}
+        {/* Full Big Popup (Separate Component) */}
+        {fullFlatData && (
+          <FlatsDetailsPage flat={fullFlatData} onClose={closeFullPopup} />
         )}
       </section>
       </artcile>
