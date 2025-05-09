@@ -12,16 +12,22 @@
     min-width: 100%;
     background: #000;
     height: 100vh;
+    min-height: auto;
     .bg-img{
       position: absolute;
       left: 0;
       top: 0;
       z-index: 1;
-      width: 1600px;
+      width: 2000px;
       height: fit-content;
-
-      @media screen and (max-width:800px) {
-        width: 1200px; 
+      @media screen and (min-width: 2000px) and (max-width: 2500px) {
+        width: 2500px;
+      }
+      @media screen and (min-width: 1000px) and (max-width: 2000px) {
+        width: 2000px;
+      }
+      @media screen and (max-width:1000px) {
+        width: 1800px; 
       }
     }
     svg{
@@ -30,11 +36,16 @@
       top: 0;
       z-index: 111;
       min-width: 100%;
-      width: 1600px;
+      width: 2000px;
       height: fit-content;
-
-      @media screen and (max-width:800px) {
-        width: 1200px; 
+      @media screen and (min-width: 2000px) and (max-width: 2500px) {
+        width: 2500px;
+      }
+      @media screen and (min-width: 1000px) and (max-width: 2000px) {
+        width: 2000px;
+      }
+      @media screen and (max-width:1000px) {
+        width: 1800px; 
       }
       path{
         opacity: 1;
