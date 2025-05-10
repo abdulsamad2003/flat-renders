@@ -1,0 +1,68 @@
+.admin-container {
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+  }
+  
+  .flat-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .flat-form input[type="text"],
+  .flat-form input[type="number"] {
+    padding: 5px;
+    width: 150px;
+  }
+  
+  .flat-form button {
+    padding: 6px 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .flat-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .flat-table th,
+  .flat-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .flat-table button {
+    margin: 0 5px;
+  }
+  
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 20px;
+    width: 300px;
+    border-radius: 8px;
+  }
+  
+  .flat-table .clickable {
+    color: blue;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  

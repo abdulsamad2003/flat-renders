@@ -23,6 +23,12 @@ const Flats = () => {
     };
 
     fetchFlats();
+
+    
+  const interval = setInterval(fetchFlats, 100); // refresh every 5s
+
+  return () => clearInterval(interval); // cleanup
+
   }, []);
 
   // when url changes or page loads
@@ -69,19 +75,14 @@ const Flats = () => {
     const rect = e.target.getBoundingClientRect();
     const container = scrollableRef.current;
     const containerRect = container.getBoundingClientRect();  
-
-
     setPopupPosition({
       x: rect.left - containerRect.left + container.scrollLeft + rect.width / 2,
       y: rect.top - containerRect.top + container.scrollTop + rect.height / 2,
     });
     
   };
-
-
   return (
     <>
-
     <artcile className="wrapper-container">
       <section className="wrapper" ref={scrollableRef}>
         <img className="bg-img" alt="Bg image" src={renderImage} />
@@ -257,7 +258,7 @@ const Flats = () => {
           />
         </svg>
         {selectedFlats && (
-          <div
+          <section
             className="flat-details"
             style={{
               position: "absolute",
@@ -267,18 +268,28 @@ const Flats = () => {
               zIndex: 999,
             }}
           >
+            <div className="flat-details-image">
+              <img
+                className="floor-image"
+                alt="floor plain image"
+                src={selectedFlats.image_url}
+              />
+            </div>
+            <div className="small-popup-details">
             <span>
               <h2>Flat No.</h2>
               <p>{selectedFlats.name}</p>
             </span>
             <span>
               <h2>BHK</h2>
-              <p>{selectedFlats.bhk}</p>
+              <p>{selectedFlats.bhk}BHK</p>
             </span>
             <span>
               <h2>Floor</h2>
               <p>{selectedFlats.floor}</p>
             </span>
+              </div>
+            <div className="btn">
             {selectedFlats && (
               <button
                 className="main-font full-detail-btn"
@@ -287,21 +298,23 @@ const Flats = () => {
                 Get Full Details: {selectedFlats.name}
               </button>
             )}
-            <button
+            </div>
+            {/* <button
               className="main-font"
               onClick={() => setSelectedFlats(null)}
             >
               Close
-            </button>
+            </button> */}
+            
 
-          </div>
+          </section>
         )}
         {/* Full Big Popup (Separate Component) */}
+      </section>
+      </artcile>
         {fullFlatData && (
           <FlatsDetailsPage flat={fullFlatData} onClose={closeFullPopup} />
         )}
-      </section>
-      </artcile>
     </>
   );
 };

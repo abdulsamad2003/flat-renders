@@ -16,3 +16,20 @@
     font-style: normal;  
 }
 
+:root{
+    --main-color: #d8d2c6;
+    --second-color: #8babbc;
+    --dark-color: #242d36;
+    --white-color: #fafafa;
+}
+
+.main-font{
+    font-family: "Aboreto", system-ui;
+    font-weight: 400;
+    font-style: normal;
+}	
+.para-font{
+    font-family: "Tenor Sans", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}

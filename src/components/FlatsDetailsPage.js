@@ -9,7 +9,6 @@ const FlatsDetailsPage = ({flat, onClose}) => {
       <h1>Flat ID: {flat.name}</h1>
         <p>Area: {flat.area}</p>
         <p>BHK: {flat.bhk}</p>
-        
         <p>Floor: {flat.floor}</p>
         {/* Add more flat details here as needed */}
       </div>
