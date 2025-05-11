@@ -27,9 +27,9 @@ const Flats = () => {
     fetchFlats();
 
     
-  // const interval = setInterval(fetchFlats); // refresh every 5s
+  const interval = setInterval(fetchFlats); // refresh every 5s
 
-  // return () => clearInterval(interval); // cleanup
+  return () => clearInterval(interval); // cleanup
 
   }, []);
 
