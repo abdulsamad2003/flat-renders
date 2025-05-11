@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
 import "./AdminFlats.scss"; // Style modal here
 import { useNavigate } from "react-router-dom";
-import { useRefresh } from "../context/RefreshContext";
 
 const AdminFlats = () => {
-  const { triggerRefresh } = useRefresh();
   const [flats, setFlats] = useState([]);
   const [selectedFlat, setSelectedFlat] = useState(null);
   const [formData, setFormData] = useState({
@@ -75,7 +73,6 @@ const AdminFlats = () => {
     if (!error) {
       fetchFlats()
       handleCloseModal();
-      triggerRefresh() // Re-fetch flats after updating
     } else {
       console.error("Update Error:", error);
     }
@@ -97,12 +94,12 @@ const AdminFlats = () => {
       .from("flats-images")
       .upload(filePath, file, { upsert: true });
 
-    if (uploadError) {
-      console.error("Upload failed:", uploadError.message);
+    if (!uploadError) {
+      fetchFlats();
+      console.log("File uploaded successfully");
       return;
     } else{
-      triggerRefresh();
-      console.log("File uploaded successfully");
+      console.error("Upload failed:", uploadError.message);
     }
 
     // Get public URL
@@ -122,9 +119,7 @@ const AdminFlats = () => {
         console.error("Update failed:", updateError.message);
       } 
   };
-  const checkTrigger = () => {
-    triggerRefresh();
-  };
+
 
   const navigate = useNavigate();
   const handleLogout = async () => {
@@ -139,9 +134,6 @@ const AdminFlats = () => {
         <div className="nav-buttons">
           <button className="primary-btn" onClick={handleLogout}>
             Logout
-          </button>
-          <button onClick={checkTrigger} className="primary-btn">
-            click trigger
           </button>
         </div>
       </nav>
@@ -177,8 +169,8 @@ const AdminFlats = () => {
                 <td>
                   {flat.floor_image_url ? (
                     <a
-                      href={flat.floor_image_url}
-                      target="_blank"
+                      href={`${flat.floor_image_url}?t=${Date.now()}`}
+                      target="_blank" 
                       rel="noopener noreferrer"
                       style={{
                         textDecoration: "underline",

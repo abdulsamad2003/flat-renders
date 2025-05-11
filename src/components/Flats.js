@@ -4,9 +4,9 @@ import "./Flats.scss";
 import { supabase } from "../lib/supabaseClient";
 import FlatsDetailsPage from "./FlatsDetailsPage";
 import ShapesparkView from "./ShapesparkView";
-import { useRefresh } from "../context/RefreshContext";
+import { IoMdClose } from "react-icons/io";
+import { Bs0Circle } from "react-icons/bs";
 const Flats = () => {
-  const { refreshFlag } = useRefresh();
   const scrollableRef = useRef(null);
 
   const [flats, setFlats] = useState([]);
@@ -14,22 +14,36 @@ const Flats = () => {
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
   const [fullFlatData, setFullFlatData] = useState(null);
   const [shapesparkData, setShapesparkData] = useState(null);
+  const fetchFlats = async () => {
+    const { data, error } = await supabase.from("flats").select("*");
+    if (error) {
+      console.error("Supabase Error:", error);
+    } else {
+      console.log("Fetched Flats Data:", data);
+      setFlats(data);
+    }
+  };
   useEffect(() => {
-    const fetchFlats = async () => {
-      const { data, error } = await supabase.from("flats").select("*");
-      if (error) {
-        console.error("Supabase Error:", error);
-      } else {
-        console.log("Fetched Flats Data:", data);
-        setFlats(data);
-      }
-    };
     fetchFlats();
-  }, [refreshFlag]);
+    
+    const channel = supabase
+      .channel("flats")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "flats" },
+        (payload) => {
+          console.log("Change received!", payload);
+          fetchFlats();
+        }
+      )
+      .subscribe();
 
-  useEffect(() => {
-    console.log("Flats data updated:", flats);
-  }, [refreshFlag]);
+    return () => {
+      supabase.removeChannel(channel);
+    }
+  }, []);
+
+
   // when url changes or page loads
   useEffect(() => {
   
@@ -74,6 +88,7 @@ const Flats = () => {
 
 
   const handlePathClick = (e, id) => {
+    fetchFlats();
     console.log("Clicked id:", id);
     console.log("Available flats:", flats);
     const flat = flats.find((f) => f.name === id);  
@@ -276,15 +291,16 @@ const Flats = () => {
               zIndex: 999,
             }}
           >
-            {/* <div className="close-btn"
-             onClick={() => setSelectedFlats(null)}>
-              c
-            </div> */}
+            <div className="close-btn"
+             onClick={() => setSelectedFlats(null)}>  
+              {/* Close button */}
+                 <IoMdClose/>
+            </div>
             <div className="floor-detail-image">
               <img
                 className="floor-image"
                 alt="floor plain image"
-                src={selectedFlats.floor_image_url}
+                src={`${selectedFlats.floor_image_url}?t=${Date.now()}`}
               />
             </div>
             <div className="small-popup-details">

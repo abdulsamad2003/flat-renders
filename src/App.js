@@ -7,14 +7,13 @@ import AdminFlats from "./Pages/AdminFlats";
 import AdminLogin from './Pages/AdminLogin';
 function App() {
   return (
-    <BrowserRouter>   
+    <BrowserRouter>  
         <Routes>
           <Route path="/" element={<Flats />} />
           <Route path="/flat/:flatsId" element={<FlatsDetailsPage />} />
           <Route path="/admin" element={<AdminLogin />} />  {/* Admin Login page */}
-          <Route path="/admin/dashboard" element={<AdminFlats />} />  {/* Admin Dashboard page */}        </Routes>
+          <Route path="/admin/dashboard" element={<AdminFlats />} />  </Routes>
       </BrowserRouter>
-
   );
 }
 
