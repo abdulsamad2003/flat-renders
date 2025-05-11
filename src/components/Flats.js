@@ -294,7 +294,7 @@ const Flats = () => {
             <div className="close-btn"
              onClick={() => setSelectedFlats(null)}>  
               {/* Close button */}
-                 <IoMdClose/>
+                 <IoMdClose className="close-icon"/>
             </div>
             <div className="floor-detail-image">
               <img

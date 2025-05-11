@@ -82,7 +82,17 @@
       border-radius: 5px;
       background: var(--main-color);            
       border: 1px solid var(--white-color);
-      
+      height: fit-content;
+      @media screen and (max-width:600px ) {
+        scrollbar-width: thick;
+        scrollbar-color: var(--dark-color) var(--main-color);
+        width: 200px;
+        height: auto;        
+        &::-webkit-scrollbar {
+          width: 10px;
+          background: var(--main-color);
+        }
+      }
       .close-btn{
         position: absolute;
         width: 30px;
@@ -95,22 +105,17 @@
         z-index: 10000;
         display: grid;
         place-items: center;
-        svg{
-          width: 100%;
+        overflow: hidden;
+        .close-icon{
+          width: 10px;
           color: var(--white-color);
         }
       }
       .floor-detail-image{
-        width: 300px;
-        min-height: 100%;
-        height: 180px;
         border-radius: 5px;
         background: var(--main-color);
         position: relative;
         z-index: 1000;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         overflow: hidden;
         @media screen and (max-width:600px ) {
           width: 200px;
@@ -134,7 +139,7 @@
         border-radius: 5px;
         z-index: 100000;
         @media screen and (max-width:600px ) {
-          padding: 2vh 1vw;
+          padding:0 0 0 0;
         }
         span{
           padding: 1.2vh 1.5vw;
