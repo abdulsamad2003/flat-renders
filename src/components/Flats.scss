@@ -87,7 +87,8 @@
         scrollbar-width: thick;
         scrollbar-color: var(--dark-color) var(--main-color);
         width: 200px;
-        height: auto;        
+        height: 200px;
+        overflow: scroll;        
         &::-webkit-scrollbar {
           width: 10px;
           background: var(--main-color);
@@ -108,6 +109,7 @@
         overflow: hidden;
         .close-icon{
           width: 10px;
+          min-width: 100%;
           color: var(--white-color);
         }
       }
