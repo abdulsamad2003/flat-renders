@@ -1,17 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import renderImage from "../assests/render-1.jpg";
 import "./Flats.scss";
 import { supabase } from "../lib/supabaseClient";
 import FlatsDetailsPage from "./FlatsDetailsPage";
 import ShapesparkView from "./ShapesparkView";
+import { useRefresh } from "../context/RefreshContext";
 const Flats = () => {
+  const { refreshFlag } = useRefresh();
   const scrollableRef = useRef(null);
 
   const [flats, setFlats] = useState([]);
   const [selectedFlats, setSelectedFlats] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
   const [fullFlatData, setFullFlatData] = useState(null);
-  const [shapespark_url, setShapesparkUrl] = useState(null);
   const [shapesparkData, setShapesparkData] = useState(null);
   useEffect(() => {
     const fetchFlats = async () => {
@@ -23,18 +24,15 @@ const Flats = () => {
         setFlats(data);
       }
     };
-
     fetchFlats();
+  }, [refreshFlag]);
 
-    
-  const interval = setInterval(fetchFlats); // refresh every 5s
-
-  return () => clearInterval(interval); // cleanup
-
-  }, []);
-
+  useEffect(() => {
+    console.log("Flats data updated:", flats);
+  }, [refreshFlag]);
   // when url changes or page loads
   useEffect(() => {
+  
     const checkUrl = () => {
       const path = window.location.pathname;
 
@@ -73,6 +71,8 @@ const Flats = () => {
     const flat = flats.find((f) => f.name === id);
     return flat?.available ? "green" : "red";
   };
+
+
   const handlePathClick = (e, id) => {
     console.log("Clicked id:", id);
     console.log("Available flats:", flats);
@@ -284,7 +284,7 @@ const Flats = () => {
               <img
                 className="floor-image"
                 alt="floor plain image"
-                src={selectedFlats.image_url}
+                src={selectedFlats.floor_image_url}
               />
             </div>
             <div className="small-popup-details">

@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
 import "./AdminFlats.scss"; // Style modal here
 import { useNavigate } from "react-router-dom";
+import { useRefresh } from "../context/RefreshContext";
 
 const AdminFlats = () => {
+  const { triggerRefresh } = useRefresh();
   const [flats, setFlats] = useState([]);
   const [selectedFlat, setSelectedFlat] = useState(null);
   const [formData, setFormData] = useState({
@@ -11,6 +13,7 @@ const AdminFlats = () => {
     bhk: "",
     floor: "",
     available: true,
+    floor_image_url: "",
     shapespark_url: "",
   });
 
@@ -51,7 +54,7 @@ const AdminFlats = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     // Make sure to check if BHK is a valid number or parse it correctly
-    const { name, bhk, floor, available, shapespark_url } = formData;
+    const { name, bhk, floor, available, floor_image_url ,shapespark_url } = formData;
     // Make sure bhk is a valid number
     if (isNaN(bhk)) {
       console.error("Invalid BHK value");
@@ -64,15 +67,17 @@ const AdminFlats = () => {
         bhk: bhk,
         floor: parseInt(floor),
         available,
-        shapespark_url,
+        floor_image_url,
+        shapespark_url
       })
       .eq("id", selectedFlat.id);
 
-    if (error) {
-      console.error("Update Error:", error);
-    } else {
+    if (!error) {
+      fetchFlats()
       handleCloseModal();
-      fetchFlats(); // Re-fetch flats after updating
+      triggerRefresh() // Re-fetch flats after updating
+    } else {
+      console.error("Update Error:", error);
     }
   };
 
@@ -95,6 +100,9 @@ const AdminFlats = () => {
     if (uploadError) {
       console.error("Upload failed:", uploadError.message);
       return;
+    } else{
+      triggerRefresh();
+      console.log("File uploaded successfully");
     }
 
     // Get public URL
@@ -107,14 +115,15 @@ const AdminFlats = () => {
 
     const { error: updateError } = await supabase
       .from("flats")
-      .update({ image_url: publicUrl })
+      .update({floor_image_url : publicUrl })
       .eq("name", selectedFlat.name);
 
-    if (updateError) {
-      console.error("Update table failed:", updateError.message);
-    } else {
-      fetchFlats(); // 👈 Refresh UI with latest image
-    }
+      if (updateError) {
+        console.error("Update failed:", updateError.message);
+      } 
+  };
+  const checkTrigger = () => {
+    triggerRefresh();
   };
 
   const navigate = useNavigate();
@@ -130,6 +139,9 @@ const AdminFlats = () => {
         <div className="nav-buttons">
           <button className="primary-btn" onClick={handleLogout}>
             Logout
+          </button>
+          <button onClick={checkTrigger} className="primary-btn">
+            click trigger
           </button>
         </div>
       </nav>
@@ -163,9 +175,9 @@ const AdminFlats = () => {
                 <td>{flat.available ? "Yes" : "No"}</td>
                 <td>{flat.shapespark_url}</td>
                 <td>
-                  {flat.image_url ? (
+                  {flat.floor_image_url ? (
                     <a
-                      href={flat.image_url}
+                      href={flat.floor_image_url}
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{
@@ -174,7 +186,7 @@ const AdminFlats = () => {
                         cursor: "pointer",
                       }}
                     >
-                      {flat.image_url.split("/").pop().split("?")[0]}
+                      {flat.floor_image_url.split("/").pop().split("?")[0]}
                     </a>
                   ) : (
                     "No Image"
@@ -265,6 +277,13 @@ const AdminFlats = () => {
                     accept="image/*"
                     onChange={(e) => setFile(e.target.files[0])}
                   />
+                  <button
+                    type="button"
+                    className="primary-btn"
+                    onClick={handleUpload}
+                  >
+                    Upload
+                  </button>
                 </span>
                 <div className="form-buttons">
                   <button type="submit">Update</button>
