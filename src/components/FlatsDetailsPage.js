@@ -1,7 +1,7 @@
 import React from 'react';
 import './FlatsDetailsPage.scss';
 const FlatsDetailsPage = ({flat, onClose}) => {
-  
+  console.log("Flat Details:", flat);
   return (
     <div className="full-modal">
       <div className="modal-content">

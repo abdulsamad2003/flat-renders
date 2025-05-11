@@ -3,6 +3,7 @@ import renderImage from "../assests/render-1.jpg";
 import "./Flats.scss";
 import { supabase } from "../lib/supabaseClient";
 import FlatsDetailsPage from "./FlatsDetailsPage";
+import ShapesparkView from "./ShapesparkView";
 const Flats = () => {
   const scrollableRef = useRef(null);
 
@@ -10,7 +11,8 @@ const Flats = () => {
   const [selectedFlats, setSelectedFlats] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
   const [fullFlatData, setFullFlatData] = useState(null);
-
+  const [shapespark_url, setShapesparkUrl] = useState(null);
+  const [shapesparkData, setShapesparkData] = useState(null);
   useEffect(() => {
     const fetchFlats = async () => {
       const { data, error } = await supabase.from("flats").select("*");
@@ -25,9 +27,9 @@ const Flats = () => {
     fetchFlats();
 
     
-  const interval = setInterval(fetchFlats, 100); // refresh every 5s
+  // const interval = setInterval(fetchFlats); // refresh every 5s
 
-  return () => clearInterval(interval); // cleanup
+  // return () => clearInterval(interval); // cleanup
 
   }, []);
 
@@ -53,12 +55,18 @@ const Flats = () => {
 
   const openFullPopup = (flat) => {
     setFullFlatData(flat);
-    window.history.pushState({}, "", `/flat/${flat.name.toLowerCase()}`);
+    window.history.pushState({}, "", `/flat/${flat.name.toLowerCase()}`);    
+  };
+
+  const openShapesparkView = (flat) => {
+    setShapesparkData(flat);
+    window.history.pushState({}, "", `/flat/${flat.shapespark_url.toLowerCase()}`);    
   };
 
   const closeFullPopup = () => {
     setFullFlatData(null);
     window.history.pushState({}, "", "/");
+    setShapesparkData(null)
   };
 // get available and unavailbe class
   const getFlatClass = (id) => {
@@ -268,7 +276,11 @@ const Flats = () => {
               zIndex: 999,
             }}
           >
-            <div className="flat-details-image">
+            {/* <div className="close-btn"
+             onClick={() => setSelectedFlats(null)}>
+              c
+            </div> */}
+            <div className="floor-detail-image">
               <img
                 className="floor-image"
                 alt="floor plain image"
@@ -297,23 +309,31 @@ const Flats = () => {
               >
                 Get Full Details: {selectedFlats.name}
               </button>
+              
             )}
             </div>
-            {/* <button
-              className="main-font"
-              onClick={() => setSelectedFlats(null)}
-            >
-              Close
-            </button> */}
+            <div className="btn">
+            {selectedFlats && (
+              <button
+                className="main-font full-detail-btn"
+                onClick={() => openShapesparkView(selectedFlats)}
+              >
+                View Live 3D Model
+              </button>
+            )}
+            </div>
             
 
           </section>
         )}
-        {/* Full Big Popup (Separate Component) */}
       </section>
       </artcile>
+        {/* Full Big Popup (Separate Component) */}
         {fullFlatData && (
           <FlatsDetailsPage flat={fullFlatData} onClose={closeFullPopup} />
+        )}
+        {shapesparkData && (
+          <ShapesparkView ShapesparkView={shapesparkData} onClose={closeFullPopup} />
         )}
     </>
   );

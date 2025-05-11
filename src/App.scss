@@ -33,3 +33,37 @@
     font-weight: 400;
     font-style: normal;
 }
+.primary-btn{
+    width: 100%;
+    padding: 1.3vh 2vw;
+    font-size: clamp(10px, 3vw, 14px);
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 700;
+    background-color: var(--dark-color);
+    color: var(--main-color);
+    font-family: "Tenor Sans", sans-serif;
+    border-radius: 8px;
+    text-align: center;
+    border: none;
+    &:hover{
+      background: #242d36b7;
+    }
+}
+.secondary-btn{
+    padding: 0.75rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    @extend .main-font !optional;
+    background-color: var(--second-color);
+    color: var(--white-color);
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: var(--dark-color);
+    }
+}
