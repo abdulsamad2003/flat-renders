@@ -11,7 +11,6 @@ const AdminFlats = () => {
     bhk: "",
     floor: "",
     available: true,
-    floor_image_url: "",
     shapespark_url: "",
   });
 
@@ -52,7 +51,7 @@ const AdminFlats = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     // Make sure to check if BHK is a valid number or parse it correctly
-    const { name, bhk, floor, available, floor_image_url ,shapespark_url } = formData;
+    const { name, bhk, floor, available, shapespark_url } = formData;
     // Make sure bhk is a valid number
     if (isNaN(bhk)) {
       console.error("Invalid BHK value");
@@ -65,16 +64,15 @@ const AdminFlats = () => {
         bhk: bhk,
         floor: parseInt(floor),
         available,
-        floor_image_url,
-        shapespark_url
+        shapespark_url,
       })
       .eq("id", selectedFlat.id);
 
-    if (!error) {
-      fetchFlats()
-      handleCloseModal();
-    } else {
+    if (error) {
       console.error("Update Error:", error);
+    } else {
+      handleCloseModal();
+      fetchFlats(); // Re-fetch flats after updating
     }
   };
 
@@ -94,12 +92,9 @@ const AdminFlats = () => {
       .from("flats-images")
       .upload(filePath, file, { upsert: true });
 
-    if (!uploadError) {
-      fetchFlats();
-      console.log("File uploaded successfully");
-      return;
-    } else{
+    if (uploadError) {
       console.error("Upload failed:", uploadError.message);
+      return;
     }
 
     // Get public URL
@@ -108,18 +103,20 @@ const AdminFlats = () => {
       .getPublicUrl(filePath);
 
     const publicUrl = `${UrlData.publicUrl}?t=${Date.now()}`;
-    // Update the image_url column in flats table
+    // Update the floor_image_url column in flats table
 
     const { error: updateError } = await supabase
       .from("flats")
-      .update({floor_image_url : publicUrl })
+      .update({ floor_image_url: publicUrl })
       .eq("name", selectedFlat.name);
 
-      if (updateError) {
-        console.error("Update failed:", updateError.message);
-      } 
-  };
+    if (updateError) {
+      console.error("Update table failed:", updateError.message);
+    } else {
 
+      fetchFlats(); // 👈 Refresh UI with latest image
+    }
+  };
 
   const navigate = useNavigate();
   const handleLogout = async () => {
@@ -169,8 +166,8 @@ const AdminFlats = () => {
                 <td>
                   {flat.floor_image_url ? (
                     <a
-                      href={`${flat.floor_image_url}?t=${Date.now()}`}
-                      target="_blank" 
+                      href={flat.floor_image_url}
+                      target="_blank"
                       rel="noopener noreferrer"
                       style={{
                         textDecoration: "underline",

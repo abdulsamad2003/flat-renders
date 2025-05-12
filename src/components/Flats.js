@@ -328,7 +328,7 @@ const Flats = () => {
               
             )}
             </div>
-            <div className="btn">
+            {/* <div className="btn">
             {selectedFlats && (
               <button
                 className="main-font full-detail-btn"
@@ -337,7 +337,7 @@ const Flats = () => {
                 View Live 3D Model
               </button>
             )}
-            </div>
+            </div> */}
             
 
           </section>
@@ -348,9 +348,9 @@ const Flats = () => {
         {fullFlatData && (
           <FlatsDetailsPage flat={fullFlatData} onClose={closeFullPopup} />
         )}
-        {shapesparkData && (
+        {/* {shapesparkData && (
           <ShapesparkView ShapesparkView={shapesparkData} onClose={closeFullPopup} />
-        )}
+        )} */}
     </>
   );
 };
