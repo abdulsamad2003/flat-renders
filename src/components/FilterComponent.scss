@@ -1,0 +1,55 @@
+@import "../App.scss";
+.filter-wrapper {
+    background: var(--white-color);
+    border-radius: 1rem;
+    gap: 1.5rem;
+
+    h2 {
+      margin: 0;
+      font-size: 1.6rem;
+    }
+  
+    .filter-buttons {
+      display: flex;
+    gap: 2vw
+    }
+  
+    .popup {
+      background-color: var(--main-color);
+      padding: 1rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    
+      h3 {
+        margin-top: 0;
+      }
+  
+      input[type="range"] {
+        width: 100%;
+        margin: 0.5rem 0;
+        accent-color: var(--second-color);
+      }
+  
+      .checkbox-group {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+  
+        label {
+          display: flex;
+          align-items: center;
+          gap: 0.4rem;
+        }
+      }
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .filter-buttons {
+      flex-direction: column;
+    }
+  
+    .popup {
+      width: 100%;
+    }
+  }
