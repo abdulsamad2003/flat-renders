@@ -78,9 +78,10 @@
         }
       }
       .yellow {
-        fill: #f6e05e65; // translucent yellow
+        fill: transparent; // translucent yellow
+        stroke-width: 0; 
         &:hover {
-          fill: #f6e05eff; // brighter yellow on hover
+          fill: transparent; // brighter yellow on hover
         }
       }
     }
@@ -146,6 +147,10 @@
           font-size: 16px;
           text-align: center;
           animation: shimmer 2s infinite;
+          @media screen and (max-width:500px ) {
+            width: 100%;
+            height: 150px;
+          }
         }
         @keyframes shimmer {
           0% { background-position: -1000px 0; }
