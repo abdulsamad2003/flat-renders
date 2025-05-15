@@ -23,10 +23,10 @@ const Flats = () => {
       console.log("Fetched Flats Data:", data);
       setFlats(data);
     }
+    
   };
   useEffect(() => {
     fetchFlats();
-
     const channel = supabase
       .channel("flats")
       .on(
@@ -91,6 +91,7 @@ const Flats = () => {
 
   const getFlatClass = (id) => {
     const flat = flats.find((f) => f.name === id);
+    console.log("Looking for flat with id", id, "→ Found:", flat);
     if (!flat) return "";
 
     if (!flat.available) return "red";
@@ -101,11 +102,11 @@ const Flats = () => {
     const matchesFloor =
       flat.floor >= floorRange[0] && flat.floor <= floorRange[1];
 
-    return matchesBHK && matchesArea && matchesFloor ? "green" : "yellow";
+    return matchesBHK && matchesArea && matchesFloor ? "green" : "invisible";
   };
 
   const handlePathClick = (e, id) => {
-    fetchFlats();
+    if (!flats.length) fetchFlats(); // ✅ Only fetch if needed
     console.log("Clicked id:", id);
     console.log("Available flats:", flats);
     const flat = flats.find((f) => f.name === id);
@@ -140,8 +141,24 @@ const Flats = () => {
   useEffect(() => {
     fetchFlats();
   }, []);
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
 
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [polygons, setPolygons] = useState([]);
+  useEffect(() => {
+    const fetchPolygons = async () => {
+      const { data, error } = await supabase.from("polygons").select("*");
+      if (!error) {
+        console.log("Fetched polygons:", data);
+        setPolygons(data);
+      } else {
+        console.error("Error fetching polygons:", error);
+      }
+    };
+
+    fetchPolygons();
+    console.log(polygons, "polygons")
+    console.log(polygons.name, "poly names")
+  }, []);
   return (
     <>
       <article className="wrapper-container">
@@ -154,6 +171,13 @@ const Flats = () => {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
+            {/* <path
+              id="A04"
+              onClick={(e) => handlePathClick(e, "A04")}
+              d="M 182 23.21875 L 172 195.21875 L 349 192.21875 L 345 23.21875 Z"
+              fill="black"
+              className={getFlatClass("A04")}
+            />
             <path
               id="A04"
               onClick={(e) => handlePathClick(e, "A04")}
@@ -312,7 +336,16 @@ const Flats = () => {
               d="M4021 1557L4022 1734L3520 1727L3519 1543L4021 1557Z"
               fill="black"
               className={getFlatClass("F01")}
-            />
+            /> */}
+            {polygons.map((poly, i) => (
+              <path
+                key={i}
+                d={poly.points}
+                className={getFlatClass(poly.name)}
+                onClick={(e) => handlePathClick(e, poly.name)}
+ 
+              />
+            ))}
           </svg>
           {selectedFlats && (
             <section

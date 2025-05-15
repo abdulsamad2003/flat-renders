@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
 import "./AdminFlats.scss"; // Style modal here
 import { useNavigate } from "react-router-dom";
+import PolygonDrawer from "../admin/PolygonDrawer";
+import AdminDashboard from "./AdminDashboard";
 
 const AdminFlats = () => {
   const [flats, setFlats] = useState([]);
@@ -285,6 +287,9 @@ const AdminFlats = () => {
           </div>
         )}
       </div>
+      <PolygonDrawer/>
+
+      <AdminDashboard/>
     </>
   );
 };

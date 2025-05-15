@@ -1,0 +1,88 @@
+.wrapper-container{
+    display: block;
+    width: 100%;
+    transition: all .5s ease 0s;
+    height: 100vh;
+    overflow: hidden;
+    .wrapper{
+      overflow: scroll;
+      display: block;
+      position: relative;
+      width: fit-content; 
+      min-width: 100%;
+      background: #000;
+      height: 100vh;
+      min-height: auto;
+      .bg-img{
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 2000px;
+        height: fit-content;
+        @media screen and (min-width: 2000px) and (max-width: 2500px) {
+          width: 2500px;
+        }
+        @media screen and (min-width: 1000px) and (max-width: 2000px) {
+          // width: 1900px;
+          min-width: 100vw;
+        }
+        @media screen and (max-width:1000px) {
+          width: 1200px; 
+        }
+        @media screen and (max-width:500px) {
+          width:  900px; 
+        }
+      }
+      svg{
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 111111;
+        min-width: 100%;
+        width: 2000px;
+        height: fit-content;
+        @media screen and (min-width: 2000px) and (max-width: 2500px) {
+          width: 2500px;
+        }
+        @media screen and (min-width: 1000px) and (max-width: 2000px) {
+          min-width: 100vw;
+          // min-width: 100%;
+        }
+        @media screen and (max-width:1000px) {
+          width: 1200px; 
+        }
+        @media screen and (max-width:500px) {
+          width:  900px; 
+        }
+        path{
+          opacity: 1;
+          stroke: white;
+          stroke-width: 6;  
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        .green{
+          fill: #5fd95867;
+          &:hover{
+            fill: #5fd958ea;
+            opacity: 1;
+          }
+        }
+        .red{
+          fill: #ff000037;
+          &:hover{
+            fill: #ff0000ea;
+          }
+        }
+        .yellow {
+          fill: transparent; // translucent yellow
+          stroke-width: 0; 
+          &:hover {
+            fill: transparent; // brighter yellow on hover
+          }
+        }
+      }
+    }
+  }

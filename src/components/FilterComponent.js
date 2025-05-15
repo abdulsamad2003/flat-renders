@@ -18,7 +18,6 @@ const FilterComponent = ({
   };
 
   const [openPopup, setOpenPopup] = useState(null); // 'bhk', 'area', 'floor'
-
   return (
     <div className="filter-wrapper">
       <div className="filter-buttons">

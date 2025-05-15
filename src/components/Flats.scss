@@ -77,7 +77,9 @@
           fill: #ff0000ea;
         }
       }
-      .yellow {
+      .invisible {
+        visibility: hidden;
+        opacity: 1;
         fill: transparent; // translucent yellow
         stroke-width: 0; 
         &:hover {
